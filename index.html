@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Uploader</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f9;
+        }
+        .upload-form {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+        .upload-form h1 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .upload-form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        .upload-form input,
+        .upload-form textarea,
+        .upload-form button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .upload-form button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        .upload-form button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <form class="upload-form" id="fileUploadForm">
+        <h1>Upload Files</h1>
+        <label for="file">Select Files:</label>
+        <input type="file" id="file" name="file" multiple>
+
+        <label for="folder">Select Folder:</label>
+        <input type="file" id="folder" name="folder" webkitdirectory directory>
+
+        <label for="text">Enter Text:</label>
+        <textarea id="text" name="text" rows="5" placeholder="Enter your text here..."></textarea>
+
+        <button type="button" id="sendButton">Send</button>
+    </form>
+
+    <script>
+        document.getElementById('sendButton').addEventListener('click', async () => {
+            const form = document.getElementById('fileUploadForm');
+            const formData = new FormData(form);
+
+            try {
+                const response = await fetch('/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (response.ok) {
+                    alert('Files uploaded successfully!');
+                } else {
+                    alert('Failed to upload files.');
+                }
+            } catch (error) {
+                console.error('Error uploading files:', error);
+                alert('An error occurred while uploading files.');
+            }
+        });
+    </script>
+</body>
+</html>
